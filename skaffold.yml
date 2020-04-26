@@ -5,8 +5,23 @@ metadata:
   name: sample
 
 build:
+  tagPolicy:
+    sha256: {}
   artifacts:
     - image:  docker.pkg.github.com/roygi/infrastructure/sample
       context: .
       docker:
         dockerfile: Dockerfile
+        cacheFrom:
+          - alpine:latest
+          - golang:alpine
+
+deploy:
+  helm:
+    releases:
+      - name: sample
+        namespace: demo
+        chartPath: helm/sample
+        packaged:
+          version: 0.0.0
+          appVersion: latest
