@@ -1,0 +1,12 @@
+apiVersion: skaffold/v2beta2
+kind: Config
+
+metadata:
+  name: sample
+
+build:
+  artifacts:
+    - image:  docker.pkg.github.com/roygi/infrastructure/sample
+      context: .
+      docker:
+        dockerfile: Dockerfile
