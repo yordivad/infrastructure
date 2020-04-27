@@ -22,3 +22,6 @@ staging-deploy:
 
 deploy:
 	./scripts/deploy.sh -e pro
+
+docker:
+	./scripts/docker.sh
