@@ -1,22 +1,42 @@
-name: Build
+
+name: CI/CD
 
 on:
   push:
     branches: [ master ]
   pull_request:
     branches: [ master ]
-
+  release:
+    types: [created]
+    
 jobs:
 
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-    # Runs a single command using the runners shell
-    - name: Build
-      run: make
+      # Runs a single command using the runners shell
+      - name: Build
+        run: make
 
-    # Runs the test
-    - name: Test
-      run: make test
+      # Runs the test
+      - name: Test
+        run: make test
+
+  deploy:
+    #needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - run: git fetch --depth=1 origin +refs/tags/*:refs/tags/*
+
+      - name: install deps.
+        run: make dependencies
+
+      - name: Docker Login
+        run: echo "${{ secrets.KEY }}" | docker login docker.pkg.github.com -u RoyGI --password-stdin
+
+      - name: Docker Build
+        run: make docker

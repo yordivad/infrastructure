@@ -41,12 +41,14 @@ profiles:
     build:
       local:
         push: true
+        useDockerCLI: true
     activation:
-      - kubeContext: digital
+      - kubeContext: minikube
 
   - name: prod
     build:
       local:
         push: true
+        useDockerCLI: true
     activation:
-      - kubeContext: digital
+      - kubeContext: minikube

@@ -1,4 +1,4 @@
-.PHONY: all clean build test deploy deploy-dev debug staging-deploy
+.PHONY: all clean build test deploy deploy-dev debug staging-deploy dependencies
 
 all: clean build
 
@@ -25,3 +25,6 @@ deploy:
 
 docker:
 	./scripts/docker.sh
+
+dependencies:
+	./scripts/dependencies.sh
