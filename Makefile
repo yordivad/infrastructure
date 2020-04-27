@@ -1,4 +1,4 @@
-.PHONY: all clean build deploy deploy-dev debug staging-deploy
+.PHONY: all clean build test deploy deploy-dev debug staging-deploy
 
 all: clean build
 
@@ -7,6 +7,9 @@ clean:
 
 build:
 	./scripts/build.sh
+
+test:
+	./scripts/test.sh
 
 debug:
 	./scripts/deploy.sh -e dev -d true
