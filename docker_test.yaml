@@ -1,0 +1,9 @@
+schemaVersion: '2.0.0'
+metadataTest:
+  exposedPorts: ['8080']
+  cmd: ["./main"]
+
+fileExistenceTests:
+  - name: main
+    path: /root/main
+    shouldExist: true

@@ -19,3 +19,5 @@ web/elm-stuff/
 go.sum
 
 vendor/
+
+dist/

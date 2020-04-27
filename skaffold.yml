@@ -6,15 +6,15 @@ metadata:
 
 build:
   tagPolicy:
-    sha256: {}
+    envTemplate:
+      template: "{{.IMAGE_NAME}}:{{.VERSION}}"
   artifacts:
-    - image:  docker.pkg.github.com/roygi/infrastructure/sample
-      context: .
-      docker:
-        dockerfile: Dockerfile
-        cacheFrom:
-          - alpine:latest
-          - golang:alpine
+    - image: docker.pkg.github.com/roygi/infrastructure/sample
+
+test:
+  - image: docker.pkg.github.com/roygi/infrastructure/sample
+    structureTests:
+      - './docker_test.yaml'
 
 deploy:
   helm:
@@ -23,5 +23,30 @@ deploy:
         namespace: demo
         chartPath: helm/sample
         packaged:
-          version: 0.0.0
-          appVersion: latest
+          appVersion: "{{.VERSION}}"
+          version: "{{.VERSION}}"
+
+profiles:
+  - name: dev
+    activation:
+      - kubeContext: minikube
+    portForward:
+      - resourceType: deployment
+        resourceName: sample
+        namespace: demo
+        port: 8080
+        localPort: 9000
+
+  - name: sta
+    build:
+      local:
+        push: true
+    activation:
+      - kubeContext: digital
+
+  - name: prod
+    build:
+      local:
+        push: true
+    activation:
+      - kubeContext: digital
