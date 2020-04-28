@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Config
+
+clusters:
+  - cluster:
+      certificate-authority-data: {{KEY}}
+      server: https://usw1.kubesail.com
+    name: prod_cluster
+
+users:
+  - name: {{USR}}
+    user:
+      client-key-data: {{KEY}}
+      token: {{TKN}}
+
+contexts:
+  - context:
+      cluster: prod_cluster
+      namespace: roygi
+      user: {{USR}}
+    name: prod_cluster
+

@@ -20,11 +20,10 @@ deploy:
   helm:
     releases:
       - name: sample
+        values:
+          image.repository: docker.pkg.github.com/roygi/infrastructure/sample
         namespace: demo
         chartPath: helm/sample
-        packaged:
-          appVersion: "{{.VERSION}}"
-          version: "{{.VERSION}}"
 
 profiles:
   - name: dev
@@ -37,18 +36,42 @@ profiles:
         port: 8080
         localPort: 9000
 
-  - name: sta
+  - name: stag
+    activation:
+      - kubeContext: dev_cluster
     build:
       local:
         push: true
         useDockerCLI: true
-    activation:
-      - kubeContext: minikube
+    deploy:
+      helm:
+        releases:
+          - name: sample
+            namespace: roygi
+            chartPath: helm/sample
+            packaged:
+              appVersion: "{{.VERSION}}"
+              version: "{{.VERSION}}"
 
   - name: prod
+    activation:
+      - kubeContext: prod_cluster
     build:
       local:
         push: true
         useDockerCLI: true
-    activation:
-      - kubeContext: minikube
+    deploy:
+      helm:
+        releases:
+          - name: sample
+            namespace: roygi
+            chartPath: helm/sample
+            packaged:
+              appVersion: "{{.VERSION}}"
+              version: "{{.VERSION}}"
+            setValues:
+              service.type: ClusterIP
+              replicaCount: 1
+              ingress.enabled: false
+
+

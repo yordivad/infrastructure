@@ -35,14 +35,14 @@ deploy_pro()
   echo "deploying on production"
   export VERSION
   VERSION="$(git describe --tags --abbrev=0)"
-  skaffold run -p prod
+  skaffold run -p prod -n roygi
 }
 
 deploy_stag() {
   echo "deploying on staging"
   export VERSION
   VERSION="$(git describe --tags --abbrev=0)"
-  skaffold run -p stag
+  skaffold run -p stag -n roygi
 }
 
  while [ -n "$1" ]; do

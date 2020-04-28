@@ -1,4 +1,6 @@
-.PHONY: all clean build test deploy deploy-dev debug staging-deploy dependencies
+.PHONY: all clean build test deploy deploy-dev debug staging-deploy dependencies set-local set-prod
+
+KUBECONFIG=$KUBECONFIG:./dist/prod.config:./dist/dev.config
 
 all: clean build
 
@@ -14,13 +16,17 @@ test:
 debug:
 	./scripts/deploy.sh -e dev -d true
 
-dev-deploy:
+deploy-dev:
 	./scripts/deploy.sh -e dev
 
-staging-deploy:
+deploy-sta:
+	./scripts/clean.sh
+	./scripts/cluster_setup.sh -d
 	./scripts/deploy.sh -e sta
 
 deploy:
+	./scripts/clean.sh
+	./scripts/cluster_setup.sh -p
 	./scripts/deploy.sh -e pro
 
 docker:
@@ -28,3 +34,9 @@ docker:
 
 dependencies:
 	./scripts/dependencies.sh
+
+set-local:
+	./scripts/context.sh -l
+
+set-prod:
+	./scripts/context.sh -p

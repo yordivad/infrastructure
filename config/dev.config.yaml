@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Config
+
+clusters:
+  - cluster:
+      certificate-authority-data: {{KEY}}
+      server: https://35.192.137.200:443
+    name: dev_cluster
+
+users:
+  - name: {{USR}}
+    user:
+      client-key-data: {{KEY}}
+      token: {{TKN}}
+
+contexts:
+  - context:
+      cluster: dev_cluster
+      namespace: roygi
+      user: {{USR}}
+    name: dev_cluster
+
+
