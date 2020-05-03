@@ -21,3 +21,17 @@ go.sum
 vendor/
 
 dist/
+
+.idea/
+
+.vagrant/
+
+aws/.terraform.tfstate.lock.info
+
+aws/.terraform/
+
+*.tfstate
+
+aws/terraform.tfstate.backup
+
+playbook/master_join.sh

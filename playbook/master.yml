@@ -1,0 +1,11 @@
+---
+- hosts: all
+  become: true
+  tasks:
+    - include: tasks/packages.yml
+    - include: tasks/docker.yml
+    - include: tasks/swap-disable.yml
+    - include: tasks/kube.yml
+    - include: tasks/k8s.yml
+  handlers:
+    - include: handlers/docker.yml

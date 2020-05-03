@@ -1,0 +1,13 @@
+- hosts: all
+  become: true
+  tasks:
+    - include: tasks/packages.yml
+    - include: tasks/docker.yml
+    - include: tasks/swap-disable.yml
+    - include: tasks/kube.yml
+
+    - name: Copy the join
+      copy: src=master_join.sh dest=/tmp/master.sh mode=0777
+
+    - name: Join the node to cluster
+      command: sh /tmp/master.sh
